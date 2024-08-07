@@ -28,7 +28,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-          cache: 'maven'
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
