@@ -29,7 +29,12 @@
 		<!-- Sonar -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<!-- Old code
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		-->
+		<!-- New code
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../app-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		-->
 		<sonar.language>java</sonar.language>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<!-- FIXME: 4.0.0 -->
