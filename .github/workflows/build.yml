@@ -47,5 +47,5 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           mvn -B clean install
-          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Curvc-DevOps_spring-cloud-netflix_2a91f112-897d-4c10-9fb2-6ee8ade743e8 -Dsonar.projectName='spring-cloud-netflix' -Psonar
+          mvn -B -U -P sonar org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Curvc-DevOps_spring-cloud-netflix_2a91f112-897d-4c10-9fb2-6ee8ade743e8 -Dsonar.projectName='spring-cloud-netflix'
 
