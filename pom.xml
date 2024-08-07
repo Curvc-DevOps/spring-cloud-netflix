@@ -27,13 +27,7 @@
 		<mockserverclient.version>5.15.0</mockserverclient.version>
 
 		<!-- Sonar -->
-		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<!-- Old code
-		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-		-->
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		<sonar.language>java</sonar.language>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<!-- FIXME: 4.0.0 -->
 		<duplicate-finder-maven-plugin.skip>true</duplicate-finder-maven-plugin.skip>
@@ -263,26 +257,17 @@
 						<version>0.8.7</version>
 						<executions>
 							<execution>
-								<id>pre-unit-test</id>
+								<id>prepare-agent</id>
 								<goals>
 									<goal>prepare-agent</goal>
 								</goals>
-								<configuration>
-									<propertyName>surefireArgLine</propertyName>
-									<destFile>${project.build.directory}/jacoco.exec</destFile>
-								</configuration>
 							</execution>
 							<execution>
-								<id>post-unit-test</id>
-								<phase>test</phase>
+								<id>report</id>
 								<goals>
 									<goal>report</goal>
 								</goals>
 								<configuration>
-									<!-- Sets the path to the file which contains the execution data. -->
-									<!--
-									<dataFile>${project.build.directory}/jacoco.exec</dataFile>
-									-->
 									<formats>
 										<format>XML</format>
 									</formats>
