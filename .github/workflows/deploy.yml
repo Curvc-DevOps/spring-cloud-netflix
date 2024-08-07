@@ -31,8 +31,8 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Publish package
-        run: mvn -B deploy -Dmaven.test.skip=true -s settings.xml -Dusername=${{ env.ARTIFACTORY_USERNAME }} -Dpassword=${{ env.ARTIFACTORY_TOKEN }} -Dbuildnumber=${{ env.BUILD_NUMBER }} -Dbuildurl=${{ env.BUILD_URL }}
+      - name: Publish package to Artifactory
+        run: mvn -B deploy -Dmaven.test.skip=true -Dusername=${{ env.ARTIFACTORY_USERNAME }} -Dpassword=${{ env.ARTIFACTORY_TOKEN }} -Dbuildnumber=${{ env.BUILD_NUMBER }} -Dbuildurl=${{ env.BUILD_URL }}
         env:
           ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
           ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
