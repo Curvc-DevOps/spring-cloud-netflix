@@ -21,10 +21,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
-          cache: 'maven'
-          server-id: curvc-artifactory
-          server-username: ${{ env.ARTIFACTORY_USERNAME }}
-          server-password: ${{ env.ARTIFACTORY_TOKEN }}
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
