@@ -22,6 +22,9 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: 'maven'
+          server-id: curvc-artifactory
+          server-username: ${{ env.ARTIFACTORY_USERNAME }}
+          server-password: ${{ env.ARTIFACTORY_TOKEN }}
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
@@ -29,9 +32,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Publish package
+        run: mvn -B deploy -Dmaven.test.skip=true -Dusername=${{ env.ARTIFACTORY_USERNAME }} -Dpassword=${{ env.ARTIFACTORY_TOKEN }} -Dbuildnumber=${{ env.BUILD_NUMBER }} -Dbuildurl=${{ env.BUILD_URL }}
         env:
           ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
           ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
           BUILD_NUMBER: "${{ github.run_number }}"
           BUILD_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        run: mvn -B deploy -Dmaven.test.skip=true -Dusername=${{ env.ARTIFACTORY_USERNAME }} -Dpassword=${{ env.ARTIFACTORY_TOKEN }} -Dbuildnumber=${{ env.BUILD_NUMBER }} -Dbuildurl=${{ env.BUILD_URL }}
