@@ -27,8 +27,23 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: 'maven'
-      - name: Build with Maven
-        run: ./mvnw clean install -B -U -P sonar
-      - uses: codecov/codecov-action@v4
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
         with:
-          fail_ci_if_error: false
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build with Maven and Analyze with Sonar
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          mvn -B clean install
+          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Curvc-DevOps_spring-cloud-netflix_2a91f112-897d-4c10-9fb2-6ee8ade743e8 -Dsonar.projectName='spring-cloud-netflix'
+
