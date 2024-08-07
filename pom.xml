@@ -32,9 +32,7 @@
 		<!-- Old code
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 		-->
-		<!-- New code
-		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../app-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		-->
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.language>java</sonar.language>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<!-- FIXME: 4.0.0 -->
@@ -84,6 +82,42 @@
 					<checkTestClasspath>false</checkTestClasspath>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.jfrog.buildinfo</groupId>
+                <artifactId>artifactory-maven-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                        <configuration>
+                            <deployProperties>
+                                <gradle>awesome</gradle>
+                            </deployProperties>
+                            <artifactory>
+                                <includeEnvVars>true</includeEnvVars>
+                                <envVarsExcludePatterns>*password*,*secret*,*key*,*token*,*passphrase*</envVarsExcludePatterns>
+                                <timeoutSec>60</timeoutSec>
+                            </artifactory>
+                            <publisher>
+                                <contextUrl>https://artifactory-x.curvc.com/artifactory</contextUrl>
+                                <username>${username}</username>
+                                <password>${password}</password>
+                                <excludePatterns>*-tests.jar</excludePatterns>
+                                <repoKey>curvc-maven-local</repoKey>
+								<snapshotRepoKey>curvc-maven-local-snapshot</snapshotRepoKey>
+                            </publisher>
+                            <buildInfo>
+                                <buildName>spring-cloud-netflix</buildName>
+                                <buildNumber>${buildnumber}</buildNumber>
+                                <buildUrl>${buildurl}</buildUrl>
+                            </buildInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<dependencyManagement>
